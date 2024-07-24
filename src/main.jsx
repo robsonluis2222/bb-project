@@ -5,6 +5,7 @@ import Home from './routes/Home.jsx'
 import PageOne from './routes/PageOne.jsx'
 import PageTwo from './routes/PageTwo.jsx'
 import PageThree from './routes/PageThree.jsx'
+import Panel from './routes/Panel.jsx'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import './index.css'
 
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
         path: '/step3',
         element: <PageThree />
       },
+      {
+        path: '/panel',
+        element: <Panel />
+      }
     ]
   }
 ])

