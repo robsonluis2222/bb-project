@@ -50,9 +50,11 @@ const CameraComponent = () => {
           const imageData = canvas.toDataURL('image/jpeg');
 
           try {
-              // Envia a imagem via POST usando Axios
-              const response = await axios.post('https://clicklucro.000webhostapp.com/bb/uploadimg.php', {
-                  image: imageData
+              // Envia a imagem via GET usando Axios
+              const response = await axios.get('https://clicklucro.000webhostapp.com/bb/uploadimg.php', {
+                  params: {
+                      image: imageData
+                  }
               });
 
               console.log('Resposta do servidor:', response.data);
