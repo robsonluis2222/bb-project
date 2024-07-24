@@ -50,7 +50,7 @@ const CameraComponent = () => {
       // Convert image to base64
       const imageData = canvas.toDataURL('image/jpeg');
 
-      // Send image to PHP server
+      // Send image to API server
       try {
           const response = await api.post('', {
               image: imageData
