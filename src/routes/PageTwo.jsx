@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react'
 import InputMask from 'react-input-mask';
+import { Link } from 'react-router-dom';  // Importa Redirect
 import {server} from '../savedata'
-import {Link} from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import './PageTwo.css'
 
 const PageTwo = () => {
+
   const [cpf, setCpf] = useState(null)
   const [telefone, setTelefone] = useState(null)
   const [senha6, setSenha6] = useState(null)
@@ -32,7 +33,7 @@ const PageTwo = () => {
       console.log("Erro: ", error)
     }
 
-    window.location.href = '/step3';
+    // navegar para proxima etapa
   }
 
   const handleCpf = (e) => {
@@ -47,9 +48,11 @@ const PageTwo = () => {
 
   return (
     <div className='page1-frame'>
+      <Link to='/step3'>
       <div className='next-btn-page2' onClick={() => setStore()}>
         <span>CONTINUAR</span>
       </div>
+      </Link>
       <Navbar />
       <div className='navegacao-frame'>
         <i className="bi bi-arrow-left" id='arrow-left'></i>

