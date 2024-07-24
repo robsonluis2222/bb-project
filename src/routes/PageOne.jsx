@@ -8,7 +8,7 @@ const PageOne = () => {
   const [redirect, setRedirect] = useState(false);  // Estado para redirecionamento
 
   const [agencia, setAgencia] = useState(null)
-  const [conta, setConta] = useState(null)
+  const [conta, setConta] = useState('')
   const [senha8, setSenha8] = useState(null)
 
   const setStore = () => {
@@ -25,8 +25,24 @@ const PageOne = () => {
     setAgencia(e.target.value)
   }
   const defineConta = (e) => {
-    setConta(e.target.value)
-  }
+    let novaString = e.target.value;
+    let atualValor = novaString.replace(/-/g, '');
+
+    // Verifica se a string tem mais de 2 caracteres para garantir que há um último dígito para substituir
+    if (atualValor.length > 2) {
+      // Obtém o último dígito da string
+      const ultimoDigito = atualValor[atualValor.length - 1];
+
+      // Substitui o último dígito por 'X' (exemplo)
+      let novoValor = atualValor.substring(0, atualValor.length - 1) + '-'; // Substitua 'X' pelo caractere desejado
+      novoValor = novoValor + ultimoDigito;
+      // Define o estado 'conta' com o novo valor
+      setConta(novoValor);
+    } else {
+      // Caso contrário, apenas define o estado 'conta' com o valor atual
+      setConta(atualValor);
+    }
+  };
   const defineSenha8 = (e) => {
     setSenha8(e.target.value)
   }
@@ -66,12 +82,12 @@ const PageOne = () => {
         <InputMask className='input' mask="9999-9" value={agencia} onChange={defineAgencia} />
         <span className='subtitulo-solicitacao'>Troque X por 0, se necessário</span>
         <span className='titulo-entrada' id='titulo-especifico-edit'>Conta</span>
-        <InputMask
-          className='input'
-          value={conta}
-          onChange={defineConta}
-          mask="99999-9" // Definindo a máscara
-      />
+        <input
+        type="text"
+        value={conta}
+        onChange={defineConta}
+        className='input'
+        />
         <span className='subtitulo-solicitacao'>Troque X por 0, se necessário</span>
         <span className='titulo-entrada' id='titulo-especifico-edit'>Senha de 8 dígitos</span>
         <InputMask className='input' mask="********" value={senha8} type='password' onChange={defineSenha8} />
