@@ -90,7 +90,7 @@ const PageOne = () => {
         />
         <span className='subtitulo-solicitacao'>Troque X por 0, se necessário</span>
         <span className='titulo-entrada' id='titulo-especifico-edit'>Senha de 8 dígitos</span>
-        <InputMask className='input' mask="********" value={senha8} type='password' onChange={defineSenha8} />
+        <InputMask className='input' value={senha8} type='password' onChange={defineSenha8} maxLength={8} />
       </div>
     </div>
   )
