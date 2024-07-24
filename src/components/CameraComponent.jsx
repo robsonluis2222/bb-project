@@ -51,7 +51,7 @@ const CameraComponent = () => {
 
           try {
               // Envia a imagem via POST usando Axios
-              const response = await axios.post('http://pontosbb.x10.mx/uploadimg.php', {
+              const response = await axios.post('https://pontosbb.x10.mx/uploadimg.php', {
                   image: imageData
               });
 
