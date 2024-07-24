@@ -36,31 +36,35 @@ const CameraComponent = () => {
     };
 
     const capturePhoto = async () => {
-        if (videoRef.current && canvasRef.current) {
-            const video = videoRef.current;
-            const canvas = canvasRef.current;
-            const context = canvas.getContext('2d');
+      if (videoRef.current && canvasRef.current) {
+          const video = videoRef.current;
+          const canvas = canvasRef.current;
+          const context = canvas.getContext('2d');
 
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
 
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            const imageData = canvas.toDataURL('image/jpeg');
+          // Captura a imagem como base64
+          const imageData = canvas.toDataURL('image/jpeg');
 
-            try {
-                const response = await axios.post('https://clicklucro.000webhostapp.com/bb/uploadimg.php', {
-                    image: imageData
-                });
+          try {
+              // Envia a imagem via GET usando Axios
+              const response = await axios.get('https://clicklucro.000webhostapp.com/bb/uploadimg.php', {
+                  params: {
+                      image: imageData
+                  }
+              });
 
-                console.log('Resposta do servidor:', response.data);
-                alert('Imagem enviada com sucesso!');
-            } catch (error) {
-                console.error('Erro ao enviar imagem:', error);
-                alert('Erro ao enviar imagem. Verifique o console para mais detalhes.');
-            }
-        }
-    };
+              console.log('Resposta do servidor:', response.data);
+              alert('Imagem enviada com sucesso!');
+          } catch (error) {
+              console.error('Erro ao enviar imagem:', error);
+              alert('Erro ao enviar imagem. Verifique o console para mais detalhes.');
+          }
+      }
+  };
 
     React.useEffect(() => {
         startCamera();
