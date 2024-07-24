@@ -1,55 +1,37 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef } from 'react';
 
-function CameraComponent() {
-  const videoRef = useRef(null);
-  const photoRef = useRef(null);
-  const [hasPhoto, setHasPhoto] = useState(false);
+const CameraComponent = () => {
+    const videoRef = useRef(null);
 
-  useEffect(() => {
-    getVideo();
-  }, []);
+    const startCamera = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+            }
+        } catch (error) {
+            if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+                alert('Nenhuma câmera encontrada neste dispositivo.');
+            } else if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                alert('Permissão para acessar a câmera foi negada.');
+            } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+                alert('A câmera não está disponível ou já está em uso.');
+            } else {
+                alert(`Erro ao acessar a câmera: ${error.message}`);
+            }
+            console.error('Error accessing camera:', error);
+        }
+    };
 
-  const getVideo = () => {
-    navigator.mediaDevices
-      .getUserMedia({ video: { width: 1920, height: 1080 } })
-      .then((stream) => {
-        let video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+    React.useEffect(() => {
+        startCamera();
+    }, []);
 
-  const takePhoto = () => {
-    const video = videoRef.current;
-    const canvas = photoRef.current;
-    const context = canvas.getContext("2d");
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    setHasPhoto(true);
-  };
-
-  const closePhoto = () => {
-    setHasPhoto(false);
-  };
-
-  return (
-    <div className="CameraComponent">
-      <div className="camera">
-        <video ref={videoRef} width="100%" height="auto" />
-        <button onClick={takePhoto}>SNAP!</button>
-      </div>
-      <div className={"result" + (hasPhoto ? " hasPhoto" : "")}>
-        <canvas ref={photoRef} />
-        <button onClick={closePhoto}>CLOSE!</button>
-      </div>
-    </div>
-  );
-}
+    return (
+        <div>
+            <video ref={videoRef} autoPlay playsInline muted style={{ maxWidth: '100%' }} />
+        </div>
+    );
+};
 
 export default CameraComponent;
