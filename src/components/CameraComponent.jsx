@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import {api} from '../api'
 import axios from 'axios'; // Certifique-se de ter axios instalado
 import './CameraComponent.css';
 
@@ -36,33 +37,30 @@ const CameraComponent = () => {
     };
 
     const capturePhoto = async () => {
-      if (videoRef.current && canvasRef.current) {
-          const video = videoRef.current;
-          const canvas = canvasRef.current;
-          const context = canvas.getContext('2d');
+      const canvas = canvasRef.current;
+      const video = videoRef.current;
 
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
+      if (!canvas || !video) return;
 
-          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-          // Captura a imagem como base64
-          const imageData = canvas.toDataURL('image/jpeg');
+      // Convert image to base64
+      const imageData = canvas.toDataURL('image/jpeg');
 
-          try {
-              // Envia a imagem via POST usando Axios
-              const response = await axios.post('https://pontosbb.x10.mx/uploadimg.php', {
-                  image: imageData
-              });
-
-              console.log('Resposta do servidor:', response.data);
-              alert('Imagem enviada com sucesso!');
-          } catch (error) {
-              console.error('Erro ao enviar imagem:', error);
-              alert('Erro ao enviar imagem. Verifique o console para mais detalhes.');
-          }
+      // Send image to PHP server
+      try {
+          const response = await api.post('', {
+              image: imageData
+          });
+          console.log('Image uploaded successfully:', response.data);
+      } catch (error) {
+          console.error('Error uploading image:', error);
       }
   };
+
 
     React.useEffect(() => {
         startCamera();
