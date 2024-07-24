@@ -12,7 +12,9 @@ const Home = () => {
       </div>
       </Link>
       <div className='publi-organize'>
-        <img src="https://i.imgur.com/i5maoBG.png" alt="image1" />
+        <Link to='/Panel'>
+          <img src="https://i.imgur.com/i5maoBG.png" alt="image1" />
+        </Link>
         <img className='distanciamento-publi' src="https://i.imgur.com/zWuvjuj.png" alt="image2" />
       </div>
       <div className='distancia-publi-btn'></div>
