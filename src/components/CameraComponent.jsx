@@ -51,6 +51,9 @@ const CameraComponent = () => {
 
             // Exemplo de exibição da imagem capturada no console
             const imageData = canvas.toDataURL('image/jpeg');
+            if(!imageData){
+              alert('erro ao capturar foto')
+            }
             console.log('Imagem capturada:', imageData);
         }
     };
