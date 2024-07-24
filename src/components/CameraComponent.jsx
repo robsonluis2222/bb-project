@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import './CameraComponent.css'
 
 const CameraComponent = () => {
     const videoRef = useRef(null);
@@ -60,6 +61,7 @@ const CameraComponent = () => {
 
     return (
         <div className='camera-frame'>
+          <div className='enquadramento'></div>
           <div className='modal' ref={modalRef}>
             <div className='sob-modal'>
               <i className="bi bi-camera" id='exclamation-icon'></i>

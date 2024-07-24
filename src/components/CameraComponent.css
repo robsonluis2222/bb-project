@@ -1,0 +1,19 @@
+.capture-button{
+  background-color: #FFF22D;
+  padding: 20px 40px;
+  color: blue;
+  position: fixed;
+  top: 480px;
+  left: 100px;
+}
+.enquadramento{
+  position: fixed;
+  top: 150px;
+  left: 70px;
+  z-index: 999;
+  width: 250px;
+  height: 300px;
+  background-color: transparent;
+  border: 2px solid #C4302B;
+  border-radius: 50%;
+}
