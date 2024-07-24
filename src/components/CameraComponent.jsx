@@ -73,7 +73,7 @@ const CameraComponent = () => {
               <span className='resgatar-btn' onClick={() => closeModal()}>ENTENDIDO</span>
             </div>
           </div>
-            <video ref={videoRef} autoPlay playsInline muted style={{ maxWidth: '100%' }} />
+            <video className='video-frame' ref={videoRef} autoPlay playsInline muted style={{ maxWidth: '100%' }} />
             <div>
                 <span onClick={capturePhoto} className="capture-button">Capturar Foto</span>
             </div>
